@@ -1,24 +1,18 @@
-import { Router } from 'express';
-import { ReasonPhrases, StatusCodes } from 'http-status-codes';
-import { NotFoundError } from '../errors/NotFoundError.js'
+import { Router } from 'express'
 
-import { meetupRouter } from './meetupRouter.js';
+import { meetupRouter } from './meetupRouter.js'
 
-export const routing = Router();
+import { notFoundMiddleware } from '../middleware/notFoundMiddleware.js'
+import { errorHandleMiddleware } from '../middleware/errorHandleMiddleware.js'
+
+export const routing = Router()
 
 routing.get('/', (req, res) => {
-  res.send('Welcome to the page');
-});
+  res.send('Welcome to the page')
+})
 
-routing.use('/api/', meetupRouter);
+routing.use('/api/', meetupRouter)
 
-routing.use('/*', (req, res) => {   // to do it over in a middleware
-  throw new NotFoundError() 
-});
+routing.use('/*', notFoundMiddleware)
 
-routing.use((err, req, res, next) => {    // to do it over in a middleware
-  res.status(500);
-  res
-    .status(StatusCodes.INTERNAL_SERVER_ERROR)
-    .send(ReasonPhrases.INTERNAL_SERVER_ERROR);
-});
+routing.use(errorHandleMiddleware)
