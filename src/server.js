@@ -2,6 +2,7 @@ import 'dotenv/config'
 
 import { routing } from './routers/index.js'
 import { sequelize } from './models/index.js'
+import express from 'express'
 
 const HOST = process.env.HOST
 const PORT = process.env.PORT
