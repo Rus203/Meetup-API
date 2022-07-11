@@ -1,11 +1,11 @@
 export const meetup = (sequelize, DataTypes) => {
   return sequelize.define(
-    "meetup",
+    'meetup',
     {
       id: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
-        primaryKey: true
+        primaryKey: true,
       },
       name: {
         type: DataTypes.STRING,

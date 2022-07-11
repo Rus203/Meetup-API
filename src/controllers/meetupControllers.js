@@ -1,4 +1,4 @@
-import { StatusCodes, ReasonPhrases } from 'http-status-codes'
+import { StatusCodes } from 'http-status-codes'
 
 import { meetupServices } from '../services/meetupServices.js'
 
@@ -26,5 +26,5 @@ export const meetupControllers = {
     const id = request.params.id
     await meetupServices.delete(id)
     response.status(StatusCodes.NO_CONTENT).send()
-  }
+  },
 }
