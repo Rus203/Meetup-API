@@ -34,11 +34,9 @@ export const meetupServices = {
   },
 
   async delete(id) {
-    const meetup = this.readById(id)
     const status = await models.meetup.destroy({ where: { id: id } })
     if (!status) {
       throw new NotFoundError(`Doesn't exist such id: ${id}`)
     }
-    return meetup
   },
 }

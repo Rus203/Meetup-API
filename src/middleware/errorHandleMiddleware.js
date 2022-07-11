@@ -1,8 +1,6 @@
 import { ReasonPhrases, StatusCodes } from "http-status-codes"
 
-export const internalServerErrorMiddleware = (error, request, response, next) => {
-  console.log(JSON.stringify(error, null, 2))
-  console.log(error.name)
+export const errorHandleMiddleware = (error, request, response, next) => {
   if(!error.name) {
     const err = {
       name: 'commonError',
