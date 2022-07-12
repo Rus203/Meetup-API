@@ -1,5 +1,5 @@
 import { Sequelize, DataTypes } from 'sequelize';
-import { meetup } from './meetupModel.js';
+import { meetupModel } from './meetupModel.js';
 
 export const sequelize = new Sequelize(
   process.env.DB_NAME,
@@ -13,7 +13,7 @@ export const sequelize = new Sequelize(
 );
 
 export const models = {}
-models.meetup = meetup(sequelize, DataTypes)
+models.meetupModel = meetupModel(sequelize, DataTypes)
 // ...
 
 
