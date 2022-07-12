@@ -22,6 +22,13 @@ export const meetupControllers = {
     const changedMeetup = await meetupServices.update(id, changes)
     response.status(StatusCodes.OK).send(changedMeetup)
   },
+
+  async updateAll(request, response) {
+    const changes = request.body
+    const changedMeetup = await meetupServices.updateAll(changes)
+    response.status(StatusCodes.OK).send(changedMeetup)
+  },
+
   async delete(request, response) {
     const id = request.params.id
     await meetupServices.delete(id)
