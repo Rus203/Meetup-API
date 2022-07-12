@@ -3,12 +3,12 @@ import { NotUniqueError } from '../errors/NotUniqueError.js'
 import { models } from '../models/index.js'
 
 export const meetupServices = {
-  add(data) {
+  async add(data) {
     return models.meetup.create(data)
   },
 
-  readAll() {
-    return  models.meetup.findAll()
+  async readAll() {
+    return models.meetup.findAll()
   },
 
   async readById(id) {
