@@ -1,10 +1,10 @@
 import { ReasonPhrases, StatusCodes } from "http-status-codes"
 
 export const errorHandleMiddleware = (error, request, response, next) => {
-  if(!error.name) {
+  if(!error.status) {
     const err = {
       name: 'commonError',
-      message: 'Something was wrong',
+      message: error.name,
       reason: ReasonPhrases.INTERNAL_SERVER_ERROR
     }
     response.status(StatusCodes.INTERNAL_SERVER_ERROR).send(err)
