@@ -1,4 +1,4 @@
-export const meetup = (sequelize, DataTypes) => {
+export const meetupModel = (sequelize, DataTypes) => {
   return sequelize.define(
     'meetup',
     {
