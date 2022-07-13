@@ -12,16 +12,18 @@ meetupRouter.get(
   userErrorHandleMiddleware(meetupControllers.readAll)
 ) //  get all the users
 
-meetupRouter.use('/meetups', joiValidationMiddleware)
-meetupRouter.use(
-  '/meetups',
-  userErrorHandleMiddleware(isContentTypeJsonMiddleware)
-)
+
 meetupRouter
   .route('/meetups')
-  .post(userErrorHandleMiddleware(meetupControllers.add)) // add a new user
+  .post(
+    joiValidationMiddleware,
+    userErrorHandleMiddleware(isContentTypeJsonMiddleware),
+    userErrorHandleMiddleware(meetupControllers.add)
+  ) // add a new user
   .put(
     validateUUIDMiddleware,
+    joiValidationMiddleware,
+    userErrorHandleMiddleware(isContentTypeJsonMiddleware),
     userErrorHandleMiddleware(meetupControllers.updateAll)
   ) // change user
 
