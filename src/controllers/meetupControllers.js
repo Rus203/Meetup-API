@@ -7,15 +7,25 @@ export const meetupControllers = {
     const newMeetup = await meetupServices.add(request.body)
     response.status(StatusCodes.CREATED).send(newMeetup)
   },
+
   async read(request, response) {
     const id = request.params.id
     const meetup = await meetupServices.readById(id)
     response.status(StatusCodes.OK).send(meetup)
   },
+
   async readAll(request, response) {
-    const meetups = await meetupServices.readAll()
-    response.status(StatusCodes.OK).send(meetups)
+    if (request.query.sort) {
+      let sort = request.query.sort.split(',')
+      const meetups = await meetupServices.readAll(null, sort)
+      response.status(StatusCodes.OK).send(meetups)
+    } else {
+      const filter = request.query
+      const meetups = await meetupServices.readAll(filter, null)
+      response.status(StatusCodes.OK).send(meetups)
+    }
   },
+
   async update(request, response) {
     const id = request.params.id
     const changes = request.body

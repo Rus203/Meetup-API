@@ -1,14 +1,22 @@
 import { NotFoundError } from '../errors/NotFoundError.js'
 import { NotUniqueError } from '../errors/NotUniqueError.js'
 import { models } from '../models/index.js'
+import { sort } from '../utils/functionsUtils.js'
 
 export const meetupServices = {
   async add(data) {
     return models.meetupModel.create(data)
   },
 
-  async readAll() {
-    return models.meetupModel.findAll()
+  async readAll(condition, sortParam) {
+    condition = condition ?? {}
+    sortParam = sortParam ?? ['name', 'asc']
+    let meetups = await models.meetupModel.findAll({
+      where: condition,
+      raw: true,
+    })
+    meetups = sort(meetups, sortParam)
+    return meetups
   },
 
   async readById(id) {
@@ -26,7 +34,9 @@ export const meetupServices = {
         throw new NotUniqueError(`new id must be unique`)
       }
     })
-    const status = await models.meetupModel.update(changes, { where: { id: id } })
+    const status = await models.meetupModel.update(changes, {
+      where: { id: id },
+    })
     if (!status) {
       throw new NotFoundError(`Doesn't exist such id: ${id}`)
     }
