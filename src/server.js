@@ -4,6 +4,9 @@ import { routing } from './routers/index.js'
 import { sequelize } from './models/index.js'
 import express from 'express'
 
+import { errorHandleMiddleware } from './middleware/errorHandleMiddleware.js'
+import { notFoundMiddleware } from './middleware/notFoundMiddleware.js'
+
 const HOST = process.env.HOST
 const PORT = process.env.PORT
 
@@ -11,10 +14,19 @@ const PORT = process.env.PORT
 const server = express()
 
 sequelize.sync({ alter: true })
+try {
+  server.use(express.json())
+} catch (error) {
+  console.log(error)
+  next(error)
+}
+  
 
-server.use(express.json())
 
 server.use(routing)
+
+server.use('/*', notFoundMiddleware)
+server.use(errorHandleMiddleware)
 
 sequelize.sync({ alter: true }).then(
   () => console.log('the synchronization was completed successfully'),
