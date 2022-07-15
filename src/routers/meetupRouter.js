@@ -1,12 +1,18 @@
 import { Router } from 'express'
 import { meetupControllers } from '../controllers/meetupControllers.js'
+import { swaggerDoc } from '../utils/swaggerDoc.js'
+
+import swaggerUi from 'swagger-ui-express'
 import { isContentTypeJsonMiddleware } from '../middleware/isContentTypeJsonMiddleware.js'
 import { userErrorHandleMiddleware } from '../middleware/userErrorHandleMiddleware.js'
 import { joiValidationMiddleware } from '../middleware/joiValidateMeetupMiddleware.js'
 import { validateUUIDMiddleware } from '../middleware/validateUUIDMiddleware.js'
 
+
+
 export const meetupRouter = Router()
 
+meetupRouter.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc))
 meetupRouter.get(
   '/meetups',
   userErrorHandleMiddleware(meetupControllers.readAll)
