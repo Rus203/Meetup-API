@@ -6,6 +6,8 @@ import express from 'express'
 
 import { errorHandleMiddleware } from './middleware/errorHandleMiddleware.js'
 import { notFoundMiddleware } from './middleware/notFoundMiddleware.js'
+import passport from 'passport'
+import strategy from './passport/passport.js'
 
 const HOST = process.env.HOST
 const PORT = process.env.PORT
@@ -15,13 +17,14 @@ const server = express()
 server.use(express.json())
 
 
-
+passport.use(strategy)
+server.use(passport.initialize())
 server.use(routing)
 
 server.use('/*', notFoundMiddleware)
 server.use(errorHandleMiddleware)
 
-sequelize.sync({ alter: true }).then(
+sequelize.sync({ true: true }).then(
   () => {
     console.log('the synchronization was completed successfully')
     models.roleModel.create({name: 'user'})
