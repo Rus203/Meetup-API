@@ -10,7 +10,7 @@ export const roleServices = {
   },
 
   async getRolesOfUser (user) {
-    const allHisRoles = await user.getRoles({ raw: true })
+    const allHisRoles = await user.getRoles()
     const roles = []
     for (const key in allHisRoles) {
       roles.push(allHisRoles[key].name)
