@@ -2,13 +2,11 @@ import jsonwebtoken from 'jsonwebtoken'
 
 const token = {
   generateAccessToken (data) {
-    
-    return jsonwebtoken.sign(data, process.env.SECRET, { expiresIn: parseInt(process.env.ACCESS_EXPIRESIN) })
+    return jsonwebtoken.sign(data, process.env.SECRET, { expiresIn: process.env.ACCESS_EXPIRESIN})
   },
 
   generateRefreshToken (data) {
-    const exp = Date.now() + +process.env.REFRESH_EXPIRESIN
-    return jsonwebtoken.sign(data, process.env.REFRESH_SECRET, { expiresIn: parseInt(process.env.REFRESH_EXPIRESIN) })
+    return jsonwebtoken.sign(data, process.env.REFRESH_SECRET, { expiresIn: process.env.ACCESS_EXPIRESIN})
   },
 
   checkExpToken (exp) {
