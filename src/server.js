@@ -1,7 +1,7 @@
 import 'dotenv/config'
 
 import { routing } from './routers/index.js'
-import { sequelize } from './models/index.js'
+import { models, sequelize } from './models/index.js'
 import express from 'express'
 
 import { errorHandleMiddleware } from './middleware/errorHandleMiddleware.js'
@@ -12,15 +12,8 @@ const PORT = process.env.PORT
 
 
 const server = express()
+server.use(express.json())
 
-sequelize.sync({ alter: true })
-try {
-  server.use(express.json())
-} catch (error) {
-  console.log(error)
-  next(error)
-}
-  
 
 
 server.use(routing)
@@ -29,7 +22,11 @@ server.use('/*', notFoundMiddleware)
 server.use(errorHandleMiddleware)
 
 sequelize.sync({ alter: true }).then(
-  () => console.log('the synchronization was completed successfully'),
+  () => {
+    console.log('the synchronization was completed successfully')
+    models.roleModel.create({name: 'user'})
+    models.roleModel.create({name: 'organizer'})
+  },
   err => console.log(err)
 )
 
