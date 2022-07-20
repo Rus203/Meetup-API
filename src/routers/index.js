@@ -1,8 +1,8 @@
 import { Router } from 'express'
 import swaggerUi from 'swagger-ui-express'
 
-import { meetupRouters } from './meetupRouters.js'
-import { authRouters } from './authRouters.js'
+import { meetupRouter } from './meetupRouter.js'
+import authRouter from './authRouter.js'
 import userRouters from './usersRouters.js'
 import { swaggerDoc } from '../utils/swaggerDoc.js'
 
@@ -14,6 +14,7 @@ routing.get('/', (req, res) => {
 })
 
 
-routing.use('/api/meetups', meetupRouters)
+routing.use('/api/meetups', meetupRouter)
 routing.use('/api/users', userRouters)
 routing.use('/api/docs',  swaggerUi.serve, swaggerUi.setup(swaggerDoc))
+routing.use('/api/auth', authRouter)
