@@ -1,45 +1,46 @@
 import { Router } from 'express'
 import { meetupControllers } from '../controllers/meetupControllers.js'
-import { swaggerDoc } from '../utils/swaggerDoc.js'
 
-import swaggerUi from 'swagger-ui-express'
 import { isContentTypeJsonMiddleware } from '../middleware/isContentTypeJsonMiddleware.js'
 import { userErrorHandleMiddleware } from '../middleware/userErrorHandleMiddleware.js'
 import { joiValidationMiddleware } from '../middleware/joiValidateMeetupMiddleware.js'
+import { meetupSchema } from '../schemas/meetupSchema.js'
 import { validateUUIDMiddleware } from '../middleware/validateUUIDMiddleware.js'
-
-
+import authenticationMiddleware from '../middleware/authenticationMiddleware.js'
+import authorizationMiddleware from '../middleware/authorizationMiddleware.js'
+import roles from '../../roles.js'
 
 export const meetupRouter = Router()
 
-meetupRouter.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc))
-meetupRouter.get(
-  '/meetups',
-  userErrorHandleMiddleware(meetupControllers.readAll)
-) //  get all the users
-
+meetupRouter.use(authenticationMiddleware)
+meetupRouter.get('/', userErrorHandleMiddleware(meetupControllers.readAll)) //  get all the users
 
 meetupRouter
-  .route('/meetups')
+  .route('/')
   .post(
-    joiValidationMiddleware,
+    joiValidationMiddleware(meetupSchema),
     userErrorHandleMiddleware(isContentTypeJsonMiddleware),
+    authorizationMiddleware(roles.ORGANIZER),
     userErrorHandleMiddleware(meetupControllers.add)
   ) // add a new user
   .put(
     validateUUIDMiddleware,
-    joiValidationMiddleware,
+    joiValidationMiddleware(meetupSchema),
     userErrorHandleMiddleware(isContentTypeJsonMiddleware),
+    authorizationMiddleware(roles.ORGANIZER),
     userErrorHandleMiddleware(meetupControllers.updateAll)
   ) // change user
 
 meetupRouter
-  .use('/meetups/:id', validateUUIDMiddleware)
-  .route('/meetups/:id')
-  .get(userErrorHandleMiddleware(meetupControllers.read)) // get a particular user by id
+  .use('/:id', validateUUIDMiddleware)
+  .route('/:id')
+  .get(
+    userErrorHandleMiddleware(meetupControllers.read),
+  ) // get a particular user by id
   .patch(
     userErrorHandleMiddleware(isContentTypeJsonMiddleware),
-    joiValidationMiddleware,
+    joiValidationMiddleware(meetupSchema),
+    authorizationMiddleware(roles.ORGANIZER),
     userErrorHandleMiddleware(meetupControllers.update)
   ) // modify user partially
-  .delete(userErrorHandleMiddleware(meetupControllers.delete)) // delete a user by id
+  .delete( authorizationMiddleware(roles.ORGANIZER), userErrorHandleMiddleware(meetupControllers.delete)) // delete a user by id
