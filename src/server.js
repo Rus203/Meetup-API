@@ -3,6 +3,7 @@ import express from 'express';
 
 import routings from './routers/index.js';
 import sequelize from '../sequelize/index.js';
+import errorHandleMiddleware from './middleware/errorHandleMiddleware.js';
 
 const PORT = process.env.PORT;
 const HOST = process.env.HOST;
@@ -19,6 +20,8 @@ sequelize.sync({ alter: true }).then(
   },
   (error) => console.log(error)
 );
+
+app.use(errorHandleMiddleware);
 
 app.listen(PORT, HOST, () => {
   console.log('Server is launched on the port - ' + PORT);

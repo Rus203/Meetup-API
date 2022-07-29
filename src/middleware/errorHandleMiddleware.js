@@ -4,6 +4,7 @@ const errorHandleMiddleware = (error, request, response, next) => {
   // console.log(
   //   `error.name - ${error.name}\nerror.message - ${error.message}\nerror.stack - ${error.stack}`
   // );
+  // console.log(error.message);
   const err = {
     name: error.name,
     message: error.message,
