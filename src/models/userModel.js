@@ -28,11 +28,6 @@ export default (sequelize, DataTypes) => {
     },
     {
       timestamps: false,
-      defaultScope: {
-        attributes: {
-          exclude: ['password'],
-        },
-      },
     }
   );
 };

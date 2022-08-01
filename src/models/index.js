@@ -12,7 +12,7 @@ const UserRole = userRoleModel(sequelize, DataTypes);
 const Role = roleModel(sequelize, DataTypes);
 
 User.belongsToMany(Role, { through: UserRole });
-UserRole.belongsToMany(User, { through: UserRole });
+Role.belongsToMany(User, { through: UserRole });
 
 User.hasMany(Meetup);
 Meetup.belongsTo(User);

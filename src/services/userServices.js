@@ -9,22 +9,21 @@ const userServices = {
   },
 
   async readAll() {
-    return userModel.findAll({
-      attributes: ['id', 'name', 'login'],
-    });
+    return userModel.findAll();
   },
 
-  async readByParameter(parameter) {
-    return userModel.findOne({
+  async readByParameter(parameter, isPassword = false) {
+    const attributes = isPassword
+      ? ['id', 'login', 'name', 'password']
+      : ['id', 'login', 'name'];
+    return await userModel.findOne({
       where: parameter,
-      attributes: ['id', 'name', 'login'],
+      attributes,
     });
   },
 
   async delete(id) {
-    const deletedUser = await this.readByParameter({ id });
-    await userModel.destroy({ where: { id } });
-    return deletedUser;
+    return userModel.destroy({ where: { id } });
   },
 };
 
