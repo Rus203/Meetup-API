@@ -1,6 +1,5 @@
 import { models } from '../models/index.js';
 
-
 const roleModel = models.role;
 
 const roleServices = {
@@ -13,7 +12,12 @@ const roleServices = {
   },
 
   async getAllRoleOfUser(user) {
-    return user.getRoles();
+    const allHisRoles = await user.getRoles();
+    const roles = [];
+    for (const key in allHisRoles) {
+      roles.push(allHisRoles[key].name);
+    }
+    return roles;
   },
 
   async readAll() {
