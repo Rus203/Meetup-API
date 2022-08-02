@@ -19,7 +19,7 @@ export const generateRefreshToken = async (user) => {
     userId: user.id,
   };
 
-  return jsonwebtoken.sign(content, process.env.ACCESS_SECRET, {
+  return jsonwebtoken.sign(content, process.env.REFRESH_SECRET, {
     expiresIn: exp,
   });
 };

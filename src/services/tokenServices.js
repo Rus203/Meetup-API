@@ -18,10 +18,9 @@ const tokenServices = {
   },
 
   async deleteFiredTokens(exp) {
-    console.log('exp ' + exp);
     return tokenModel.destroy({
       where: {
-        createdAt: {
+        updatedAt: {
           [Op.lte]: new Date(Date.now() - exp),
         },
       },
