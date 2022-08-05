@@ -6,6 +6,9 @@ import authRouters from './authRouter.js';
 import errorHandleMiddleware from '../middleware/errorHandleMiddleware.js';
 import notFoundPageMiddleware from '../middleware/notFoundPageMiddleware.js';
 
+import swagger from '../../swagger/swagger.js';
+import swaggerUi from 'swagger-ui-express';
+
 const homeRouters = Router();
 
 homeRouters.get('/', (request, response) => {
@@ -14,6 +17,7 @@ homeRouters.get('/', (request, response) => {
 
 homeRouters.use('/api/meetups', meetupRouters);
 homeRouters.use('/api/auth', authRouters);
+homeRouters.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swagger));
 
 homeRouters.use(notFoundPageMiddleware);
 homeRouters.use(errorHandleMiddleware);
