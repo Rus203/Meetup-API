@@ -70,7 +70,7 @@ const meetupPaths = {
     },
   },
 
-  '/meetups/{id}': {
+  '/meetups/{meetupId}': {
     get: {
       summary: 'list of meetups',
       tags: ['Meetups'],
