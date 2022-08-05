@@ -26,7 +26,7 @@ const meetupSchemas = {
         type: 'string',
         format: 'date',
         description: 'Date of a meetup',
-        example: '2022.04.23, 12.23',
+        example: '2022.04.23, 12:23',
       },
       place: {
         type: 'string',
