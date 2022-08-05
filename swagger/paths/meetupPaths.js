@@ -38,7 +38,7 @@ const meetupPaths = {
         content: {
           'application/json': {
             schema: {
-              $ref: '#/components/schemas/Meetup',
+              $ref: '#/components/schemas/MeetupRequest',
             },
           },
         },

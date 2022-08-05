@@ -16,8 +16,8 @@ const Token = tokenModel(sequelize, DataTypes);
 User.belongsToMany(Role, { through: UserRole });
 Role.belongsToMany(User, { through: UserRole });
 
-User.hasMany(Meetup);
-Meetup.belongsTo(User);
+User.hasMany(Meetup, { foreignKey: 'organizerId' });
+Meetup.belongsTo(User, { foreignKey: 'organizerId' });
 
 User.hasMany(Token);
 Token.belongsTo(User);

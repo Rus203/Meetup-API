@@ -3,7 +3,7 @@ import { StatusCodes } from 'http-status-codes';
 
 const meetupControllers = {
   async add(request, response) {
-    const data = request.body;
+    const data = { ...request.body, organizerId: request.user.id };
     const newMeetup = await meetupServices.add(data);
     response.status(StatusCodes.CREATED).send(newMeetup);
   },

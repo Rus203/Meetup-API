@@ -1,6 +1,18 @@
 const meetupSchemas = {
   Meetup: {
     type: 'object',
+    allOf: [{ $ref: '#components/schemas/MeetupRequest' }],
+    properties: {
+      organizerId: {
+        type: 'string',
+        format: 'uuid',
+        example: '86ce5a6e-e84c-467d-82ae-ba28264d9b0e',
+      },
+    },
+  },
+
+  MeetupRequest: {
+    type: 'object',
     properties: {
       name: {
         type: 'string',
