@@ -9,9 +9,7 @@ const authenticationMiddleware = (request, require, next) => {
       if (error) {
         next(new Error('Something was wrong'));
       } else if (!user || info) {
-        next(
-          new UnauthorizedError('Unfortunately, your cannot enter your account')
-        );
+        next(new UnauthorizedError("Unfortunately, your token isn't valid"));
       } else {
         request.user = user;
         next();
