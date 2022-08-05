@@ -15,17 +15,18 @@ import {
 
 const meetupRouters = Router();
 
+meetupRouters.use(authenticationMiddleware);
+// by default, all registered users have a user role, because there is no need to check them
+
 meetupRouters.get('/', meetupControllers.readAll);
 meetupRouters.post(
   '/',
   joiValidateMiddleware(createdMeetupSchema),
-  authenticationMiddleware,
   authorizationMiddleware(roles.MANAGER),
   asyncWrapperMiddleware(meetupControllers.add)
 );
 
-meetupRouters.use('/:id/', authenticationMiddleware, isUUIDMiddleware);
-// by default, all registered users have a user role, because there is no need to check them
+meetupRouters.use('/:id/', isUUIDMiddleware);
 
 meetupRouters.get('/:id', asyncWrapperMiddleware(meetupControllers.readOne));
 meetupRouters.put(
