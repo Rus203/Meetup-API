@@ -20,7 +20,7 @@ authRouter.post(
   asyncWrapperMiddleware(authControllers.singIn)
 );
 
-authRouter.post(
+authRouter.put(
   '/tokens',
   joiValidateMiddleware(tokenSchema),
   asyncWrapperMiddleware(authControllers.updateTokens)
