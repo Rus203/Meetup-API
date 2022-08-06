@@ -110,6 +110,43 @@ const meetupPaths = {
         },
       },
     },
+    post: {
+      summary: 'Enroll on a meetup',
+      tags: ['Meetups'],
+      security: [{ bearerAuth: [] }],
+      description:
+        'Enroll on the meetup by id. There are no need to type a body because all the parameters will be received from token and a url string. You must pass the authentication to perform this request successfully.',
+      parameters: [{
+        in: 'path',
+        name: 'meetupId',
+        required: true,
+        description: 'Id of the meetup',
+      }],
+      responses: {
+        201: {
+          description: 'Created',
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/Participants',
+              },
+            },
+          },
+        },
+        400: {
+          description: 'Bad request',
+        },
+        401: {
+          description: 'Unauthorized',
+        },
+        404: {
+          description: 'Not found',
+        },
+        500: {
+          description: 'Internal server error',
+        },
+      },
+    },
     put: {
       summary: 'Update a meetup',
       tags: ['Meetups'],
@@ -194,6 +231,47 @@ const meetupPaths = {
         },
         404: {
           description: 'Not found',
+        },
+      },
+    },
+  },
+  '/meetups/{meetupId}/participants': {
+    get: {
+      summary: 'Get a meetup with all the participants',
+      tags: ['Meetups'],
+      security: [{ bearerAuth: [] }],
+      description:
+        'Get all the participants of a meetup received by id. You must pass the authentication to perform this request successfully.',
+      parameters: [
+        {
+          in: 'path',
+          name: 'meetupId',
+          required: true,
+          description: 'Id of the meetup',
+        },
+      ],
+      responses: {
+        200: {
+          description: 'OK',
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/Participants',
+              },
+            },
+          },
+        },
+        400: {
+          description: 'Bad request',
+        },
+        401: {
+          description: 'Unauthorized',
+        },
+        404: {
+          description: 'Not found',
+        },
+        500: {
+          description: 'Internal server error',
         },
       },
     },
