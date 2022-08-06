@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import meetupControllers from '../controllers/meetupControllers.js';
+import participantControllers from '../controllers/participantControllers.js';
 import roles from '../../roles.js';
 
 import asyncWrapperMiddleware from '../middleware/asyncWrapperMiddleware.js';
@@ -27,6 +28,15 @@ meetupRouters.post(
 );
 
 meetupRouters.use('/:id/', isUUIDMiddleware);
+
+meetupRouters.post(
+  '/:id',
+  asyncWrapperMiddleware(participantControllers.addParticipant)
+);
+meetupRouters.get(
+  '/:id/participants',
+  asyncWrapperMiddleware(participantControllers.readParticipantsOfMeetup)
+);
 
 meetupRouters.get('/:id', asyncWrapperMiddleware(meetupControllers.readOne));
 meetupRouters.put(
